@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>开发文档指南 - by Jay</title>
+<style>
+.jstable {
+	border-collapse:collapse;
+	border-spacing:0px;
+	width:100%;
+	font-family:"Microsoft Yahei";
+}
+.jstable tfoot th,
+.jstable thead th {
+	height:28px;
+	vertical-align:middle;
+	font-size:14px;
+	font-weight:normal;
+	background:#000;
+	color:#fff;
+	font-weight:bold;
+}
+.jstable thead tr:first-child th {
+	background:#000;
+	text-align:left;
+	padding-left:10px;
+}
+.jstable tfoot th,
+.jstable thead tr:nth-child(2) th {
+	background:#575757;
+	text-shadow:1px 1px 0 #000;
+}
+.jstable tfoot th {
+	text-align:left
+}
+.jstable th,
+.jstable td {
+	margin:0;
+	padding:4px;
+	border:solid 1px #000;
+}
+.jstable tbody th {
+	font-size:12px;
+	height:22px;
+	line-height:normal;
+	font-weight:normal;
+	background:#4f81bd;
+	color:#fff;
+	text-shadow:1px 1px 0 rgba(0, 0, 0, 0.5);
+}
+
+.jstable tbody td {
+	font-size:12px;
+	text-shadow:1px 1px 0 rgba(255, 255, 255, 0.73);
+	height:22px;
+	line-height:1.6em;
+	vertical-align:middle;
+	background:#e7e7e7;
+}
+.jstable tbody tr:nth-child(odd) td {
+	background:#cbcbcb;
+	
+}
+.jstable tbody tr:nth-child(odd) th {
+	background:#3d6696;
+}
+.jstable tbody tr.ps td {
+	background:#355274;
+	color:#fff;
+	text-shadow:1px 1px 0 #000;
+	line-height:28px;
+	font-size:14px;
+	font-weight:bold;
+}
+.jstable pre { padding:2px 4px;}
+.jstable pre:hover {
+	background:#000;
+	color:#fff;
+	text-shadow:none;
+	border-radius:4px;
+}
+.noSet {
+	text-decoration:line-through;
+}
+</style>
+</head>
+
+<body>
+<table class="jstable">
+	<thead>
+		<tr>
+			<th colspan="3">jQuery.smgSelect 开发文档 ( ver 1.0 )</th>
+		</tr>
+		<tr>
+			<th>参数</th>
+			<th>默认设置/设置</th>
+			<th>说明</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<th>基本调用</th>
+			<td>
+基本调用：
+<pre>$("选择器").smgSelect()</pre>
+高级调用：
+<pre>$("选择器").smgSelect({
+  defText   : "",
+  wrapClass : "",
+  afselect  : function(val) {alert(val);}
+})</pre>			
+				
+			</td>
+			<td>"选择器"在这个工程中已经是指定为".smgSelectWrap"</td>
+		</tr>
+		<tr>
+			<th>defText</th>
+			<td>默认设置："请选择"<br />
+				自定义设置："任意文字"
+			</td>
+			<td>这个是设置默认起始的文字</td>
+		</tr>
+		<tr>
+			<th>afselect</th>
+			<td>回调函数，用于当用户点击列表项的时候执行一段代码，回调默认值是"val"就是每个列表的“val”值。<br />
+			例子：<br />
+<pre>$("选择器").smgSelect({
+&emsp;afselect:function(val) {alert(val)}
+})</pre>
+			</td>
+			<td>普通回调函数</td>
+		</tr>
+		<tr>
+			<th><span class="noSet">wrapClass</span></th>
+			<td>指定外层包裹一个样式名<br />默认值：""</td>
+			<td>目前不知道该项目是不是需要，暂时不写这个功能</td>
+		</tr>
+		<tr>
+			<th>$().smgSelectReset()</th>
+			<td>重置一个或者多个下拉框值<br />
+				当执行这个函数的时候，下拉框的val值也会被清除<br />
+<pre>$("触发器").click(function(e) {
+	e.stopPropagation();
+	$("要重置的对象").smgSelectReset();
+})</pre>				
+			</td>
+			<td>目前不知道该项目是不是需要，暂时不写这个功能</td>
+		</tr>
+	</tbody>
+	
+	<tbody>
+		<tr class="ps">
+			<td colspan="3">插件功能</td>
+		</tr>
+		<tr>
+			<td colspan="3">用DIV标签模拟Form表单的 SELECT 元素</td>
+		</tr>
+	</tbody>
+	<tbody>
+		<tr class="ps">
+			<td colspan="3">插件事件(event)，工作机制。</td>
+		</tr>
+		<tr>
+			<td colspan="3">整个插件只是调用"click"事件<br />
+				当打开一个下拉框的时候，插件会绑定一个CLICK事件到document上<br />
+				然后当点击除了这个插件绑定的元素的其他DOM元素，<br />
+				并且DOM元素在正常冒泡机制没有被阻断的情况下，<br />
+				遍历文档所有已经展开的下拉框，隐藏掉，<br />
+				然后解绑本身的CLICK事件，<br />
+				解绑的这个CLICK事件是基于插件的独立命名空间，不影响其它Click事件。
+			</td>
+		</tr>
+	</tbody>
+	<tbody>
+		<tr class="ps">
+			<td colspan="3">插件基本DOM结构</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+<pre>&lt;div class="smgSelectWrap"&gt;
+	&lt;div class="smgSelectText"&gt;默认文字&lt;/div&gt;
+	&lt;div class="smgSelectListWrap"&gt;
+		&lt;ul class="smgSelectList"&gt;
+			&lt;li val="1" class="smgIthems"&gt;这里是文字&lt;/li&gt;
+			&lt;li val="2" class="smgIthems"&gt;这里是文字&lt;/li&gt;
+			&lt;li val="3" class="smgIthems"&gt;这里是文字&lt;/li&gt;
+			&lt;li val="4" class="smgIthems"&gt;这里是文字&lt;/li&gt;
+		&lt;/ul&gt;
+	&lt;/div&gt;
+&lt;/div&gt;</pre>
+			</td>
+		</tr>
+	</tbody>
+</table>
+</body>
+</html>
